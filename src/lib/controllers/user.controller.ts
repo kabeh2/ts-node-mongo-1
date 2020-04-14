@@ -29,11 +29,17 @@ export const loginUser: (
       req.body.email || undefined
     );
 
+    if (!user) {
+      return res.status(400).send("Node Incorrect username/password.");
+    }
+
     const token = await user.generateToken();
 
     res.status(201).send({ user, token });
   } catch (error) {
-    res.status(500).send(error);
+    res
+      .status(400)
+      .send({ error, errorMessage: "Incorrect username/password." });
   }
 };
 

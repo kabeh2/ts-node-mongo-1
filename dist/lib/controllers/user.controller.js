@@ -18,11 +18,16 @@ exports.addUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try {
         const user = await user_model_1.default.findByCredentials(req.body.password, req.body.username || undefined, req.body.email || undefined);
+        if (!user) {
+            return res.status(400).send("Node Incorrect username/password.");
+        }
         const token = await user.generateToken();
         res.status(201).send({ user, token });
     }
     catch (error) {
-        res.status(500).send(error);
+        res
+            .status(400)
+            .send({ error, errorMessage: "Incorrect username/password." });
     }
 };
 exports.logoutUser = async (req, res) => {
