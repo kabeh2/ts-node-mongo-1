@@ -1,10 +1,11 @@
 import axios from "axios";
 import { call, all, put, takeLatest } from "redux-saga/effects";
 import { fetchRequest, fetchError, fetchSuccess } from "../actions";
-import { apiUrl, setToken } from "../../services/auth.service";
-import { LOGIN, LoginAction } from "../actions/types/actions";
+import { apiUrl, setToken, axiosAuth } from "../../services/auth.service";
+import { LOGIN, LoginAction, LOGOUT } from "../actions/types/actions";
 import { UserCredentials } from "../actions/types/UserCredentials";
 import { User } from "../actions/types/User";
+import { toggleAuth } from "../actions/actionCreators";
 
 // fetch call
 const fetchLogin = async (payload: UserCredentials) => {
@@ -19,7 +20,7 @@ function* tryLogin(action: LoginAction) {
     const data: User = yield call(fetchLogin, action.payload);
     console.log(data);
     yield put(fetchSuccess(data));
-    setToken(data.token);
+    yield call(setToken(data.token));
   } catch (error) {
     yield put(
       fetchError(
@@ -37,6 +38,30 @@ function* onLogin() {
   yield takeLatest(LOGIN, tryLogin);
 }
 
+// LOGOUT fetch call
+const fetchLogout = async () => {
+  const { data } = await axiosAuth().post(`${apiUrl}/users/logout`);
+  return data;
+};
+
+// LOGOUT worker
+function* tryLogout() {
+  try {
+    yield put(fetchRequest());
+    const data = yield call(fetchLogout);
+
+    console.log(data);
+    yield put(toggleAuth());
+  } catch (error) {
+    yield put(fetchError(error));
+  }
+}
+
+// LOGOUT watcher
+function* onLogout() {
+  yield takeLatest(LOGOUT, tryLogout);
+}
+
 export default function* appSaga() {
-  yield all([call(onLogin)]);
+  yield all([call(onLogin), call(onLogout)]);
 }

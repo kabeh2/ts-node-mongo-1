@@ -26,6 +26,7 @@ const LoginForm = (props: Props) => {
   }, [props.errors]);
 
   console.log(inputError);
+  console.log("LOGIN LOGGEDIN: ", props.loggedIn);
 
   return (
     <>
@@ -51,9 +52,10 @@ const LoginForm = (props: Props) => {
             await props.login(values);
             resetForm({});
             setStatus({ success: true });
-            if (props.errors.length !== 0) {
+            console.log("Errors: ", props.errors.length);
+            if (props.errors.length === 0) {
               props.toggleAuth();
-              return history.replace("/");
+              history.replace("/");
             }
           } catch (error) {
             setStatus({ success: false });
@@ -75,7 +77,7 @@ const LoginForm = (props: Props) => {
             type="password"
             placeholder="Password"
           />
-          {inputError && <div className="error">{inputError}</div>}
+          {/* {inputError && <div className="error">{inputError}</div>} */}
 
           <button type="submit">Submit</button>
         </Form>
@@ -87,6 +89,7 @@ const LoginForm = (props: Props) => {
 interface LinkStateProp {
   user: User;
   errors: string;
+  loggedIn: boolean;
 }
 
 interface LinkDispatchProps {
@@ -97,6 +100,7 @@ interface LinkDispatchProps {
 const mapStateToProps = (state: AppState): LinkStateProp => ({
   user: state.fetchReducer.user,
   errors: state.fetchReducer.errors,
+  loggedIn: state.fetchReducer.loggedIn,
 });
 
 const mapDispatchToProps = (dispatch: any): LinkDispatchProps => ({
