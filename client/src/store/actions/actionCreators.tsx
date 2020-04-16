@@ -5,6 +5,7 @@ import {
   FETCH_ERROR,
   TOGGLE_AUTH,
   LOGIN,
+  LOGOUT,
 } from "./types/actions";
 import { User } from "./types/User";
 import { UserCredentials } from "./types/UserCredentials";
@@ -30,4 +31,8 @@ export const toggleAuth = (): AppActions => ({
 export const login = (credentials: UserCredentials): AppActions => ({
   type: LOGIN,
   payload: credentials,
+});
+
+export const logoutAction = (): AppActions => ({
+  type: LOGOUT,
 });

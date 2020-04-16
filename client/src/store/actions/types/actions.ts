@@ -5,6 +5,7 @@ export const FETCH_REQUEST = "FETCH_REQUEST";
 export const FETCH_SUCCESS = "FETCH_SUCCESS";
 export const FETCH_ERROR = "FETCH_ERROR";
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 export const TOGGLE_AUTH = "TOGGLE_AUTH";
 
 export interface FetchRequestAction {
@@ -26,6 +27,10 @@ export interface LoginAction {
   payload: UserCredentials;
 }
 
+export interface LogoutAction {
+  type: typeof LOGOUT;
+}
+
 export interface ToggleAuthAction {
   type: typeof TOGGLE_AUTH;
 }
@@ -35,6 +40,7 @@ export type UserActionTypes =
   | FetchSuccessAction
   | FetchErrorAction
   | LoginAction
+  | LogoutAction
   | ToggleAuthAction;
 
 export type AppActions = UserActionTypes;

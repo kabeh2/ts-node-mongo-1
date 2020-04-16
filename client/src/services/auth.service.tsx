@@ -6,7 +6,7 @@ export const getToken: () => string | null = () => {
   return localStorage.getItem("token");
 };
 
-export const setToken = (payload: string): void => {
+export const setToken = (payload: string): any => {
   return localStorage.setItem("token", payload);
 };
 

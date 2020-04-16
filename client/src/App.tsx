@@ -5,6 +5,7 @@ import "./App.scss";
 import Home from "./components/pages/Home";
 import Login from "./components/pages/Login";
 import Signup from "./components/pages/Signup";
+import AddTask from "./components/pages/AddTask";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/add" component={Login} />
+        <Route path="/add" component={AddTask} />
         <Route path="/" exact component={Home} />
       </Switch>
     </div>
