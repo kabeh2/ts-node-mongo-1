@@ -2,7 +2,7 @@ import axios from "axios";
 import { call, all, put, takeLatest } from "redux-saga/effects";
 import { fetchRequest, fetchError, fetchSuccess } from "../actions";
 import { apiUrl, setToken, axiosAuth } from "../../services/auth.service";
-import { LOGIN, LoginAction, LOGOUT } from "../actions/types/actions";
+import { LOGIN, LoginAction, LOGOUT, GET_USER } from "../actions/types/actions";
 import { UserCredentials } from "../actions/types/UserCredentials";
 import { User } from "../actions/types/User";
 import { toggleAuth } from "../actions/actionCreators";
@@ -62,6 +62,28 @@ function* onLogout() {
   yield takeLatest(LOGOUT, tryLogout);
 }
 
+// GET USER FETCH
+const fetchGetUser = async () => {
+  const { data } = await axiosAuth().get(`${apiUrl}/users/me`);
+  return data;
+};
+
+// GET USER WORKER
+function* tryGetUser() {
+  try {
+    yield put(fetchRequest());
+    const data = yield call(fetchGetUser);
+    console.log("GET DATA: ", data);
+  } catch (error) {
+    yield put(fetchError(error));
+  }
+}
+
+// GET USER WATCHER
+function* onGetUser() {
+  yield takeLatest(GET_USER, tryGetUser);
+}
+
 export default function* appSaga() {
-  yield all([call(onLogin), call(onLogout)]);
+  yield all([call(onLogin), call(onLogout), call(onGetUser)]);
 }
