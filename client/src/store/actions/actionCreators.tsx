@@ -6,6 +6,7 @@ import {
   TOGGLE_AUTH,
   LOGIN,
   LOGOUT,
+  GET_USER,
 } from "./types/actions";
 import { User } from "./types/User";
 import { UserCredentials } from "./types/UserCredentials";
@@ -35,4 +36,8 @@ export const login = (credentials: UserCredentials): AppActions => ({
 
 export const logoutAction = (): AppActions => ({
   type: LOGOUT,
+});
+
+export const getUserAction = (): AppActions => ({
+  type: GET_USER,
 });
