@@ -4,13 +4,10 @@ import User from '../../db/models/user/user.model';
 export const loginUser: (
   req: Request,
   res: Response,
-) => Promise<void | Response> = async (req, res) => {
+) => Promise<void | Response> = async ({ body }, res) => {
+  const { password, username, email } = body;
   try {
-    const user = await User.findByCredentials(
-      req.body.password,
-      req.body.username || undefined,
-      req.body.email || undefined,
-    );
+    const user = await User.findByCredentials(password, username, email);
 
     if (!user) {
       return res.status(400).send('Node Incorrect username/password.');

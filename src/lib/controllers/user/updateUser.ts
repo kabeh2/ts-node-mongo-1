@@ -6,9 +6,7 @@ export const updateUser: (
 ) => Promise<void | Response> = async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ['username', 'email', 'password'];
-  const isValidUpdate = updates.every((update) =>
-    allowedUpdates.includes(update),
-  );
+  const isValidUpdate = updates.every(allowedUpdates.includes);
 
   if (!isValidUpdate) {
     return res
