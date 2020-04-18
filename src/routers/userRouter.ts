@@ -1,29 +1,29 @@
-import { Router } from "express";
+import { Router } from 'express';
+import authMiddleware from '../lib/middleware/authMiddleware';
 import {
   addUser,
-  loginUser,
-  logoutUser,
-  logoutAll,
-  getUser,
-  updateUser,
   deleteUser,
-} from "./../lib/controllers/user.controller";
-import authMiddleware from "../lib/middleware/authMiddleware";
+  getUser,
+  loginUser,
+  logoutAll,
+  logoutUser,
+  updateUser,
+} from './../lib/controllers/user';
 
 const router: Router = Router();
 
-router.post("/", addUser);
+router.post('/', addUser);
 
-router.post("/login", loginUser);
+router.post('/login', loginUser);
 
-router.post("/logout", authMiddleware, logoutUser);
+router.post('/logout', authMiddleware, logoutUser);
 
-router.post("/logoutAll", authMiddleware, logoutAll);
+router.post('/logoutAll', authMiddleware, logoutAll);
 
-router.get("/me", authMiddleware, getUser);
+router.get('/me', authMiddleware, getUser);
 
-router.patch("/me", authMiddleware, updateUser);
+router.patch('/me', authMiddleware, updateUser);
 
-router.delete("/me", authMiddleware, deleteUser);
+router.delete('/me', authMiddleware, deleteUser);
 
 export default router;
